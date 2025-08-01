@@ -5,19 +5,17 @@ package com.binpacking;
  */
 public class Item {
     private final String id;
-    private final double width;
-    private final double height;
-    private final double depth;
-    private final double weight;
+    private double width;
+    private double height;
+    private double depth;
     private Point3D position;
     private boolean packed;
     
-    public Item(String id, double width, double height, double depth, double weight) {
+    public Item(String id, double width, double height, double depth) {
         this.id = id;
         this.width = width;
         this.height = height;
         this.depth = depth;
-        this.weight = weight;
         this.position = null;
         this.packed = false;
     }
@@ -36,10 +34,6 @@ public class Item {
     
     public double getDepth() {
         return depth;
-    }
-    
-    public double getWeight() {
-        return weight;
     }
     
     public double getVolume() {
@@ -85,18 +79,27 @@ public class Item {
      */
     public Item[] getRotations() {
         return new Item[] {
-            new Item(id + "_rot0", width, height, depth, weight),
-            new Item(id + "_rot1", width, depth, height, weight),
-            new Item(id + "_rot2", height, width, depth, weight),
-            new Item(id + "_rot3", height, depth, width, weight),
-            new Item(id + "_rot4", depth, width, height, weight),
-            new Item(id + "_rot5", depth, height, width, weight)
+            new Item(id + "_rot0", width, height, depth),
+            new Item(id + "_rot1", width, depth, height),
+            new Item(id + "_rot2", height, width, depth),
+            new Item(id + "_rot3", height, depth, width),
+            new Item(id + "_rot4", depth, width, height),
+            new Item(id + "_rot5", depth, height, width)
         };
+    }
+    
+    /**
+     * 设置物品尺寸（用于旋转）
+     */
+    public void setDimensions(double width, double height, double depth) {
+        this.width = width;
+        this.height = height;
+        this.depth = depth;
     }
     
     @Override
     public String toString() {
-        return String.format("Item(id=%s, size=%.2fx%.2fx%.2f, weight=%.2f, pos=%s, packed=%s)", 
-            id, width, height, depth, weight, position, packed);
+        return String.format("Item(id=%s, size=%.2fx%.2fx%.2f, pos=%s, packed=%s)", 
+            id, width, height, depth, position, packed);
     }
 }

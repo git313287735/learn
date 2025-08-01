@@ -11,18 +11,14 @@ public class Bin {
     private final double width;
     private final double height;
     private final double depth;
-    private final double maxWeight;
     private final List<Item> items;
-    private double currentWeight;
     
-    public Bin(String id, double width, double height, double depth, double maxWeight) {
+    public Bin(String id, double width, double height, double depth) {
         this.id = id;
         this.width = width;
         this.height = height;
         this.depth = depth;
-        this.maxWeight = maxWeight;
         this.items = new ArrayList<>();
-        this.currentWeight = 0.0;
     }
     
     public String getId() {
@@ -39,14 +35,6 @@ public class Bin {
     
     public double getDepth() {
         return depth;
-    }
-    
-    public double getMaxWeight() {
-        return maxWeight;
-    }
-    
-    public double getCurrentWeight() {
-        return currentWeight;
     }
     
     public double getVolume() {
@@ -70,22 +58,10 @@ public class Bin {
     }
     
     /**
-     * 检查是否可以添加物品
-     */
-    public boolean canAddItem(Item item) {
-        return currentWeight + item.getWeight() <= maxWeight;
-    }
-    
-    /**
      * 添加物品到容器
      */
     public boolean addItem(Item item) {
-        if (!canAddItem(item)) {
-            return false;
-        }
-        
         items.add(item);
-        currentWeight += item.getWeight();
         item.setPacked(true);
         return true;
     }
@@ -95,7 +71,6 @@ public class Bin {
      */
     public boolean removeItem(Item item) {
         if (items.remove(item)) {
-            currentWeight -= item.getWeight();
             item.setPacked(false);
             item.setPosition(null);
             return true;
@@ -147,7 +122,7 @@ public class Bin {
     
     @Override
     public String toString() {
-        return String.format("Bin(id=%s, size=%.2fx%.2fx%.2f, items=%d, weight=%.2f/%.2f, utilization=%.2f%%)", 
-            id, width, height, depth, items.size(), currentWeight, maxWeight, getVolumeUtilization() * 100);
+        return String.format("Bin(id=%s, size=%.2fx%.2fx%.2f, items=%d, utilization=%.2f%%)", 
+            id, width, height, depth, items.size(), getVolumeUtilization() * 100);
     }
 }
