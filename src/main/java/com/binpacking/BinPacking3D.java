@@ -1,6 +1,7 @@
 package com.binpacking;
 
 import java.util.*;
+import java.util.Comparator;
 
 /**
  * 3D装箱算法实现，使用八叉树优化空间查询
@@ -37,7 +38,12 @@ public class BinPacking3D {
         List<Item> remainingItems = new ArrayList<>(items);
         
         // 按体积降序排序物品
-        remainingItems.sort((a, b) -> Double.compare(b.getVolume(), a.getVolume()));
+        Collections.sort(remainingItems, new Comparator<Item>() {
+            @Override
+            public int compare(Item a, Item b) {
+                return Double.compare(b.getVolume(), a.getVolume());
+            }
+        });
         
         while (!remainingItems.isEmpty()) {
             Bin currentBin = new Bin(
@@ -127,10 +133,13 @@ public class BinPacking3D {
         List<Point3D> points = bin.getPossiblePlacementPoints();
         
         // 按照底部左侧优先的顺序排序
-        points.sort((a, b) -> {
-            if (Math.abs(a.z - b.z) > 0.001) return Double.compare(a.z, b.z);
-            if (Math.abs(a.y - b.y) > 0.001) return Double.compare(a.y, b.y);
-            return Double.compare(a.x, b.x);
+        Collections.sort(points, new Comparator<Point3D>() {
+            @Override
+            public int compare(Point3D a, Point3D b) {
+                if (Math.abs(a.z - b.z) > 0.001) return Double.compare(a.z, b.z);
+                if (Math.abs(a.y - b.y) > 0.001) return Double.compare(a.y, b.y);
+                return Double.compare(a.x, b.x);
+            }
         });
         
         return points;

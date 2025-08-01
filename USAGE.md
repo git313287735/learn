@@ -1,15 +1,4 @@
-# 3D装箱算法 - Java 8版本
-
-一个基于八叉树优化的3D装箱算法实现，专门用于判断多个小箱子是否可以被一个大箱子装下。支持Java 8及以上版本。
-
-## 功能特性
-
-- ✅ **单容器装箱检查**：判断多个小箱子是否可以被一个大箱子装下
-- ✅ **八叉树优化**：使用八叉树数据结构优化空间查询和碰撞检测
-- ✅ **多种装箱策略**：支持底部左侧填充、最佳适应、首次适应、贪心启发式等策略
-- ✅ **物品旋转**：支持物品的6种旋转变体
-- ✅ **Java 8兼容**：完全兼容Java 8版本
-- ✅ **高性能**：优化的算法实现，适合大规模装箱问题
+# 3D装箱算法使用说明
 
 ## 快速开始
 
@@ -49,15 +38,15 @@ System.out.println("详细信息: " + result.message);
 ```java
 // 使用贪心启发式策略（推荐）
 SingleBinPackingChecker greedyChecker = new SingleBinPackingChecker(
-    SingleBinPackingChecker.PackingStrategy.GREEDY_HEURISTIC, true);
+    SingleBinPackingStrategy.GREEDY_HEURISTIC, true);
 
 // 使用最佳适应策略
 SingleBinPackingChecker bestFitChecker = new SingleBinPackingChecker(
-    SingleBinPackingChecker.PackingStrategy.BEST_FIT, true);
+    SingleBinPackingStrategy.BEST_FIT, true);
 
 // 使用底部左侧填充策略
 SingleBinPackingChecker bottomLeftChecker = new SingleBinPackingChecker(
-    SingleBinPackingChecker.PackingStrategy.BOTTOM_LEFT_FILL, true);
+    SingleBinPackingStrategy.BOTTOM_LEFT_FILL, true);
 ```
 
 ### 3. 控制旋转和优化
@@ -65,15 +54,15 @@ SingleBinPackingChecker bottomLeftChecker = new SingleBinPackingChecker(
 ```java
 // 允许旋转，启用八叉树优化（默认）
 SingleBinPackingChecker checker1 = new SingleBinPackingChecker(
-    SingleBinPackingChecker.PackingStrategy.GREEDY_HEURISTIC, true, true);
+    SingleBinPackingStrategy.GREEDY_HEURISTIC, true, true);
 
 // 不允许旋转，启用八叉树优化
 SingleBinPackingChecker checker2 = new SingleBinPackingChecker(
-    SingleBinPackingChecker.PackingStrategy.GREEDY_HEURISTIC, false, true);
+    SingleBinPackingStrategy.GREEDY_HEURISTIC, false, true);
 
 // 允许旋转，禁用八叉树优化（使用传统碰撞检测）
 SingleBinPackingChecker checker3 = new SingleBinPackingChecker(
-    SingleBinPackingChecker.PackingStrategy.GREEDY_HEURISTIC, true, false);
+    SingleBinPackingStrategy.GREEDY_HEURISTIC, true, false);
 ```
 
 ## 装箱策略说明
@@ -97,6 +86,21 @@ SingleBinPackingChecker checker3 = new SingleBinPackingChecker(
 - 按最长边降序排序
 - 找到第一个可放置的位置
 - 速度最快，但利用率可能较低
+
+## 运行示例
+
+### 编译和运行
+
+```bash
+# 编译项目
+javac -d target/classes -cp . src/main/java/com/binpacking/*.java
+
+# 运行快速开始示例
+java -cp target/classes com.binpacking.QuickStartExample
+
+# 运行完整演示
+java -cp target/classes com.binpacking.SingleBinPackingDemo
+```
 
 ## 核心类说明
 
@@ -125,39 +129,6 @@ SingleBinPackingChecker checker3 = new SingleBinPackingChecker(
 - 加速碰撞检测
 - 支持动态插入和删除
 
-## 运行示例
-
-### 编译和运行
-
-```bash
-# 编译项目
-mvn compile
-
-# 运行快速开始示例
-mvn exec:java -Dexec.mainClass="com.binpacking.QuickStartExample"
-
-# 运行完整演示
-mvn exec:java -Dexec.mainClass="com.binpacking.SingleBinPackingDemo"
-
-# 运行原始演示
-mvn exec:java -Dexec.mainClass="com.binpacking.BinPackingDemo"
-```
-
-### 示例输出
-
-```
-=== 3D装箱算法快速开始示例 ===
-
-示例1：简单装箱检查
-==================
-容器尺寸: 10.0x10.0x10.0
-小箱子数量: 5
-检查结果: 成功装入所有 5 个箱子，利用率 85.20%
-是否成功: true
-装入数量: 5/5
-空间利用率: 85.20%
-```
-
 ## 性能特点
 
 ### 时间复杂度
@@ -180,39 +151,3 @@ mvn exec:java -Dexec.mainClass="com.binpacking.BinPackingDemo"
 - **运输规划**：车辆装载优化
 - **3D打印**：模型切片和布局优化
 - **游戏开发**：3D场景中的物体放置
-
-## 技术实现
-
-### 八叉树优化
-- 将3D空间递归分割为8个子空间
-- 每个节点最多存储10个物品
-- 最大深度限制为5层
-- 自动平衡和重构
-
-### 碰撞检测
-- 轴对齐包围盒（AABB）检测
-- 八叉树空间查询优化
-- 支持快速插入和删除
-
-### 物品旋转
-- 支持6种旋转变体
-- 自动选择最佳旋转方向
-- 可配置是否允许旋转
-
-## 依赖要求
-
-- Java 8 或更高版本
-- Maven 3.6 或更高版本
-- JUnit 4.13.2（测试依赖）
-
-## 许可证
-
-本项目采用 MIT 许可证，详见 LICENSE 文件。
-
-## 贡献
-
-欢迎提交 Issue 和 Pull Request 来改进这个项目。
-
-## 联系方式
-
-如有问题或建议，请通过 GitHub Issues 联系我们。
