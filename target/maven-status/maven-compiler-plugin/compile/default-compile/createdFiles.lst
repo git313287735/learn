@@ -1,0 +1,11 @@
+com/binpacking/Point3D.class
+com/binpacking/BinPackingDemo$TestScenarios.class
+com/binpacking/Octree$OctreeStats.class
+com/binpacking/BinPacking3D$PackingResult.class
+com/binpacking/BinPacking3D.class
+com/binpacking/Octree.class
+com/binpacking/BinPacking3D$PlacementStrategy.class
+com/binpacking/Item.class
+com/binpacking/Box3D.class
+com/binpacking/Bin.class
+com/binpacking/BinPackingDemo.class

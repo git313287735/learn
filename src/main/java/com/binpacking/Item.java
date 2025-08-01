@@ -1,0 +1,105 @@
+package com.binpacking;
+
+/**
+ * 表示需要装箱的物品
+ */
+public class Item {
+    private final String id;
+    private double width;
+    private double height;
+    private double depth;
+    private Point3D position;
+    private boolean packed;
+    
+    public Item(String id, double width, double height, double depth) {
+        this.id = id;
+        this.width = width;
+        this.height = height;
+        this.depth = depth;
+        this.position = null;
+        this.packed = false;
+    }
+    
+    public String getId() {
+        return id;
+    }
+    
+    public double getWidth() {
+        return width;
+    }
+    
+    public double getHeight() {
+        return height;
+    }
+    
+    public double getDepth() {
+        return depth;
+    }
+    
+    public double getVolume() {
+        return width * height * depth;
+    }
+    
+    public Point3D getPosition() {
+        return position;
+    }
+    
+    public void setPosition(Point3D position) {
+        this.position = position;
+    }
+    
+    public boolean isPacked() {
+        return packed;
+    }
+    
+    public void setPacked(boolean packed) {
+        this.packed = packed;
+    }
+    
+    /**
+     * 获取物品的包围盒
+     */
+    public Box3D getBoundingBox() {
+        if (position == null) {
+            return new Box3D(0, 0, 0, width, height, depth);
+        }
+        return new Box3D(position.x, position.y, position.z, width, height, depth);
+    }
+    
+    /**
+     * 检查是否可以放置在指定位置（不考虑碰撞）
+     */
+    public boolean canFitAt(Point3D pos, Box3D container) {
+        Box3D itemBox = new Box3D(pos.x, pos.y, pos.z, width, height, depth);
+        return container.contains(itemBox);
+    }
+    
+    /**
+     * 获取物品的所有可能旋转
+     */
+    public Item[] getRotations() {
+        return new Item[] {
+            new Item(id + "_rot0", width, height, depth),
+            new Item(id + "_rot1", width, depth, height),
+            new Item(id + "_rot2", height, width, depth),
+            new Item(id + "_rot3", height, depth, width),
+            new Item(id + "_rot4", depth, width, height),
+            new Item(id + "_rot5", depth, height, width)
+        };
+    }
+    
+    /**
+     * 设置物品尺寸（用于旋转）
+     */
+    public void setDimensions(double width, double height, double depth) {
+        this.width = width;
+        this.height = height;
+        this.depth = depth;
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("Item(id=%s, size=%.2fx%.2fx%.2f, pos=%s, packed=%s)", 
+            id, width, height, depth, position, packed);
+    }
+}
