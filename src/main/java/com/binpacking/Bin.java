@@ -42,7 +42,11 @@ public class Bin {
     }
     
     public double getUsedVolume() {
-        return items.stream().mapToDouble(Item::getVolume).sum();
+        double totalVolume = 0.0;
+        for (Item item : items) {
+            totalVolume += item.getVolume();
+        }
+        return totalVolume;
     }
     
     public double getVolumeUtilization() {
